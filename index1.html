@@ -1,0 +1,70 @@
+<!doctype html>
+<html class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width; initial-scale=1.0; user-scalable=no;"/>
+        <meta name="apple-mobile-web-app-capable" content="no" />
+        <meta content="telephone=no" name="format-detection" />
+        <title>alloyTest</title>
+        <style>
+            #layer {
+                position: relative;
+            }
+            canvas {
+                position: absolute;
+                top:0;
+                left:0;
+                z-index:98;
+            }
+    
+            #template {
+                z-index:99;
+            }
+        </style>
+    </head>
+    <body id="body" style="background-color: #d5d5d5; max-width: 640px; margin: 0 auto; padding: 0;">
+        <div id="layer">
+            <canvas id="template"></canvas>
+        </div>
+        <input style="position: relative;z-index: 100" type="file" id="chooseFile" />
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/alloyimage.js"></script>
+        <script type="text/javascript">
+            $(function()  {
+                var width = $('body').width();;
+                $('#template').attr('width', width);
+
+                var canvas = document.getElementById('template');
+                var ctx = canvas.getContext("2d");
+                
+                var img = new Image();
+                img.src = 'img/lk.png';
+                $('#template').attr('height', img.height / img.width * width);
+                ctx.drawImage(img, 0, 0, width, img.height / img.width * width);
+            
+                $('#chooseFile').change(function(e) {
+                    openFile(e.target.files[0], width);
+                });
+
+                function openFile(fileUrl, width) {
+                    var reader = new FileReader();
+                    reader.readAsDataURL(fileUrl);
+                    reader.onload = function() {
+                        var img = new Image();
+                        img.src = this.result;
+                        
+                        //$('#img').attr('src', this.result);
+                        var canvasSource = '<canvas id="source"></canvas>';
+                        $('#layer').append(canvasSource);
+		
+                        var canvas1 = document.getElementById('source');
+                        var ctx1 = canvas1.getContext("2d");
+                        $('#source').attr('width', width);
+                        $('#source').attr('height', img.height / img.width * width);
+                        ctx1.drawImage(img, 0, 0, width, img.height / img.width * width);
+                    };
+                }
+            });
+        </script>
+    </body>
+</html>

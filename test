@@ -1,0 +1,39 @@
+function merger(imgs,maxWidth){
+    if(!imgs) 
+        return null;
+     
+    maxWidth = maxWidth || 500;
+     
+    var height = 0;
+    for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        if (img.width > maxWidth) {
+            height += img.height * (maxWidth / img.width);
+            continue;
+        }
+        height += img.height;
+    }
+     
+    var canvas = document.createElement("canvas");
+    canvas.width = maxWidth+10;
+    canvas.height = height+10;
+    var ctx = canvas.getContext("2d");
+     
+    var dheight = 10;
+    for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        var cheight = img.height;
+        var cwidth = img.width;
+        if (cwidth > maxWidth) {
+            cwidth = maxWidth;
+            cheight = img.height * (maxWidth / img.width);
+        }
+         
+        ctx.drawImage(img, 10, dheight, cwidth, cheight);
+        dheight += cheight;
+    }
+     
+     
+    var dataurl = canvas.toDataURL('image/png');
+    return dataurl;
+}

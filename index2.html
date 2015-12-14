@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+    <head>
+		<meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width; initial-scale=1.0; user-scalable=no;"/>
+        <meta name="apple-mobile-web-app-capable" content="no" />
+        <meta content="telephone=no" name="format-detection" />
+    </head>
+    <body id="body" style="background-color: #d5d5d5; max-width: 640px; margin: 0 auto; padding: 0;">
+        <img style="width: 100%; display:block;" id="template" src="img/lk.png" />
+        <div id='editor'></div>
+        <input type="file" id="upfile" /> 
+        
+        <button type="button" id="next">下一步</button>
+		<div id='outputs'></div>
+        <script type="text/javascript" src="ImageEditor/public/scripts/jquery.js"></script>
+        <script src="js/hammer.min.js"></script>
+        <script src='js/ImageEditor.js'></script>
+        <script type="text/javascript">
+            var editor = null;
+            var width = $('body').width();
+            var img1  = new Image();
+            img1.src = 'img/lk.png';
+            var height = img1.height / img1.width * width;
+            $('#upfile').change(function(e){
+                var path = e.target.files[0];
+                var reader = new FileReader();
+                reader.readAsDataURL(path);
+                reader.onload = function() {
+                    var res = this.result;
+                    $('#template').remove();
+                    var images = [];
+                    if (editor == null) {
+                        images = [
+                            {'url':res, 'clickToSelect': true},
+                            {'url':'img/lk.png', 'clickToSelect': false},
+                        ];
+                    } else {
+                        var images = editor.images;
+                        images.unshift({'url':res, 'clickToSelect': true});
+                    }
+                    editor = $('#editor').ImageEditor({
+                        imageUrls: images,
+                        width: width,
+                        height: height,
+                        removeIcon: null,
+
+                        onInitCompleted: function() {
+                            editor.selectImage(0); // 初始化完成后，默认选中第一个图片（头像图片）作为当前编辑图片
+                        }
+                    });
+                }
+            });
+            
+            $('#next').click(function() {
+           		var cvs = editor.mergeImage(),
+                    $img = $('<img>');
+
+                $img.attr('src', cvs.toDataURL());
+				alert(cvs.toDataURL());
+                //$('#outputs').append($img);
+                $('#outputs').append($(cvs));     
+            });
+        </script>
+    </body>
+
+</html>
