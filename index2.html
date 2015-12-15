@@ -14,8 +14,58 @@
         <button type="button" id="next">下一步</button>
         <button type="button" id="changeImage">选择图片</button>
         <input type="hidden" name="index" id="index" />
-		<div id='outputs'></div>
+        
+        <div style="margin-top: 30px; bottom:0; max-width: 640px;; overflow: hidden; display:none;" id="filter">
+            <ul style="display: block; list-style: none; padding:0px; margin:0px;">
+                <li class="filter" style="width: 6%; float: left; text-align: center;">原图
+                </li>
+                <li  class="filter" style="width: 6%; float: left; text-align: center;">美肤
+                </li>
+                <li class="filter" style="width: 6%; float: left; text-align: center;">
+                    素描
+                </li>
+                <li class="filter" style="width: 6%; float: left; text-align: center;">
+                    自然增强
+                </li>
+                <li class="filter" style="width: 6%; float: left; text-align: center;">
+                    紫调
+                </li>
+                <li class="filter" style="width: 6%; float: left; text-align: center;">
+                    柔焦
+                </li>
+                <li class="filter" style="width: 6%; float: left; text-align: center;">
+                    复古
+                </li>
+                <li class="filter" style="width: 6%; float: left; text-align: center;">
+                    黑白
+                </li>
+                <li class="filter" style="width: 6%; float: left; text-align: center;">
+                    lomo
+                </li>
+                <li class="filter" style="width: 6%; float: left; text-align: center;">
+                    亮白增强
+                </li>
+                <li class="filter" style="width: 6%; float: left; text-align: center;">
+                    灰白
+                </li>
+                <li class="filter" style="width: 6%; float: left; text-align: center;">
+                    灰色
+                </li>
+                <li class="filter" style="width: 6%; float: left; text-align: center;">
+                    暖秋
+                </li>
+                <li class="filter" style="width: 6%; float: left; text-align: center;">
+                    木雕
+                </li>
+                <li class="filter" style="width: 6%; float: left; text-align: center;">
+                    粗糙
+                </li>
+            </ul>
+        </div>
+        
         <script type="text/javascript" src="ImageEditor/public/scripts/jquery.js"></script>
+        <script type="text/javascript" src="js/alloyimage.js"></script>
+        <script type="text/javascript" src="js/alloy.js"></script>
         <script src="js/hammer.min.js"></script>
         <script src='js/ImageEditor.js'></script>
         <script type="text/javascript">
@@ -30,7 +80,7 @@
                 reader.readAsDataURL(path);
                 reader.onload = function() {
                     var res = this.result;
-                    $('#template').remove();
+                    $('#template').hide();
                     var images = [];
                     if (editor == null) {
                         images = [
@@ -67,13 +117,19 @@
             });
 
             $('#next').click(function() {
-           		var cvs = editor.mergeImage(),
-                    $img = $('<img>');
-
+                var cvs = editor.mergeImage();
+                /*
+                $img = $('<img>');
                 $img.attr('src', cvs.toDataURL());
-				alert(cvs.toDataURL());
                 //$('#outputs').append($img);
-                $('#outputs').append($(cvs));     
+                $('#outputs').append($(cvs));
+                 */
+                $('#editor').hide();
+                $('#template').attr('src', cvs.toDataURL());
+                $('#template').show();
+                $('#filter').show();
+                $('#next').hide();
+                $('#changeImage').hide();
             });
         </script>
     </body>
