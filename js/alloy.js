@@ -39,7 +39,7 @@
         eventAtt: function(){
             var _this = this;
 
-            this.addEvent(".filter", "click", function(e){
+            this.addEvent(".filterBtn", "click", function(e){
 			    var text = this.childNodes[0].nodeValue.replace(/(^\s*)|(\s*$)/g, "");
                 var img = document.getElementById("template");
                 var AP = _this.img.clone();
