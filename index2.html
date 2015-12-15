@@ -12,6 +12,8 @@
         <input type="file" id="upfile" /> 
         
         <button type="button" id="next">下一步</button>
+        <button type="button" id="changeImage">选择图片</button>
+        <input type="hidden" name="index" id="index" />
 		<div id='outputs'></div>
         <script type="text/javascript" src="ImageEditor/public/scripts/jquery.js"></script>
         <script src="js/hammer.min.js"></script>
@@ -49,9 +51,21 @@
                             editor.selectImage(0); // 初始化完成后，默认选中第一个图片（头像图片）作为当前编辑图片
                         }
                     });
+                    $('#index').val(0);
                 }
             });
-            
+
+            $('#changeImage').click(function() {
+                var currentIndex = $('#index').val();
+                if (currentIndex < editor.images.length - 2) {
+                    currentIndex = parseInt(currentIndex) + 1;
+                } else {
+                    currentIndex = 0;
+                }
+                $('#index').val(currentIndex);
+                editor.selectImage(currentIndex);
+            });
+
             $('#next').click(function() {
            		var cvs = editor.mergeImage(),
                     $img = $('<img>');
